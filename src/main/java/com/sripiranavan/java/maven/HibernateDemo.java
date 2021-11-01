@@ -21,6 +21,16 @@ public class HibernateDemo {
 		a1.setAname(an);
 		a1.setColor("Blue");
 
+		AlienName an1 = new AlienName();
+		an1.setFname("Kathiresu");
+		an1.setLname("Indirani");
+		an1.setMname("Yogarajah");
+
+		Alien a2 = new Alien();
+		a2.setAid(1);
+		a2.setAname(an1);
+		a2.setColor("Yellow");
+
 		Configuration conf = new Configuration().configure().addAnnotatedClass(Alien.class);
 
 		SessionFactory sf = conf.buildSessionFactory();
@@ -28,6 +38,7 @@ public class HibernateDemo {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		session.save(a1);
+		session.save(a2);
 		tx.commit();
 	}
 

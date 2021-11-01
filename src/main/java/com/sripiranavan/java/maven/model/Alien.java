@@ -1,11 +1,16 @@
 package com.sripiranavan.java.maven.model;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "alien_table")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//@Table(name = "alien_table")
 public class Alien {
 	@Id
 	private int aid;
