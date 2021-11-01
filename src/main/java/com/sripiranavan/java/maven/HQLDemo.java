@@ -4,17 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
+import org.hibernate.query.NativeQuery;
 
 import com.sripiranavan.java.maven.model.Laptop;
 import com.sripiranavan.java.maven.model.Student;
 
 public class HQLDemo {
-
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		Configuration conf = new Configuration().configure().addAnnotatedClass(Student.class)
 				.addAnnotatedClass(Laptop.class);
@@ -66,13 +65,21 @@ public class HQLDemo {
 //			System.out.println(s);
 //		}
 
-		SQLQuery<?> query = session.createSQLQuery("select rollno,name from student where marks>90");
-		query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-		List students = query.list();
+//		SQLQuery<?> query = session.createSQLQuery("select rollno,name from student where marks>90");
+		NativeQuery<?> q1 = session.createNativeQuery("select rollno,name from student where marks > 90");
+		q1.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		// query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+//		List students = query.list();
+		List<?> studs = q1.list();
 
-		for (Object s : students) {
-			Map<String, Long> m = (Map) s;
-			System.out.println(m.get("name") + " : " + m.get("rollno"));
+//		for (Object s : students) {
+//			Map<String, Long> m = (Map) s;
+//			System.out.println(m.get("name") + " : " + m.get("rollno"));
+//		}
+		for (Object st : studs) {
+			@SuppressWarnings("unchecked")
+			Map<String, Long> m = (Map<String, Long>) st;
+			System.out.println(m.get("name"));
 		}
 
 		session.getTransaction().commit();
