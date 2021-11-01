@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -13,7 +14,7 @@ public class Student {
 	private int rollno;
 	private String name;
 	private int marks;
-	@ManyToMany(mappedBy = "students")
+	@ManyToMany(mappedBy = "students",fetch = FetchType.EAGER)
 	private List<Laptop> laptop = new ArrayList<>();
 
 	public int getRollno() {
@@ -46,6 +47,11 @@ public class Student {
 
 	public void setLaptop(List<Laptop> laptop) {
 		this.laptop = laptop;
+	}
+
+	@Override
+	public String toString() {
+		return "Student [rollno=" + rollno + ", name=" + name + ", marks=" + marks + ", laptop=" + laptop + "]";
 	}
 
 }
